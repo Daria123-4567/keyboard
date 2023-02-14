@@ -1,30 +1,18 @@
 from random import randrange
 
 import vk_api
-from vk_api.longpoll import VkLongPoll, VkEventTy
-conn = psycopg2.connect(database="diplom", user="postgres", password="veronika")
+from vk_api.longpoll import  VkLongPoll, VkEventType
 
 token  = input ('Token:vk1.a.oyOMS9Mia8-1d9wzx4iaiL5ScyydRM4ZITb4n9tylutAyVSwQPj79P5mLUviOI6DGA8zKgl3LqaFeo58vWzIRnsaNl1pC8V3lqffNdnJGxqi2-v7TrQKtumdf6BqWN_PKXe6olRjna4KCrmjOv2XJnDoddi7tlZsutoRnusCE0holZYTGWbJ_BimKUOwEeGduNXwj9tzQRtwOskw3Meajw ')
 
 vk = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk)
 
-with conn.cursor() as cur:
-            cur.execute("CREATE TABLE user(id SERIAL PRIMARY KEY,"
-                        "age INTEGER,"
-                        "gender VARCHAR,"
-                        "city VARCHAR,"
-                        "family_status VARCHAR)");
-
-with conn.cursor() as cur:
-            cur.execute("INSERT INTO user (age, gender, city, family_status)"
-            "VALUES('{age}', '{gender}', '{city}', '{family_status}')");
-            conn.close()
-
 
  def user (user_id, message):
-    vk.method('messages.send', {'user_id: id ', 'message': message, 'random_id': randrange (10 ** 7),})
-
+        vk.method('messages.send', {'user_id': user_id,
+                                    'message': message,
+                                    'random_id': randrange(10 ** 7)})
 
  for event in longpoll.listen():
     if event.type == VkEventType.MESSAGE_NEW:
@@ -33,15 +21,15 @@ with conn.cursor() as cur:
             request = event.text
 
             if request == "привет":
-                write_msg(event.user_id, f"Хай, {event.user_id}")
+                user(event.user_id, f"Хай, {event.user_id}")
             elif request == "пока":
-                write_msg(event.user_id, "Пока((")
+                user(event.user_id, "Пока((")
             else:
-                write_msg(event.user_id, "Не поняла вашего ответа...");
+                user(event.user_id, "Не поняла вашего ответа...");
 
- d def get_photos_id(self, user_id):
+ def get_photos_id(self, user_id):
                     url = 'https://api.vk.com/method/photos.getAll'
-                    params = {'access_token': user_token,
+                    params = {'access_token': token,
                               'type': 'album',
                               'owner_id': user_id,
                               'extended': 1,
@@ -64,45 +52,46 @@ with conn.cursor() as cur:
                     except KeyError:
                         self.write_msg(user_id, 'Ошибка получения токена');
 
-    ef
-    get_photo_1(self, user_id):
+
+def get_photo_1(self, user_id):
     list = self.get_photos_id(user_id)
     count = 0
     for i in list:
         count += 1
-        1 == == 1:
+        if count == 1:
         return i[1]
 
 
 def get_photo_2(self, user_id):
-    list = self.()
+    list = self.get_photos_id(user_id)
     count = 0
     for i in list:
         count += 1
-        2 == == 2:
-        return i[1]
+        if count == 2:
+    return i[1]
 
 
 def get_photo_3(self, user_id):
-    list = self.()
+    list = self.get_photos_id(user_id)
     count = 0
     for i in list:
         count += 1
-        3 == == 3:
-        return i[1]
+        if count == 3:
+    return i[1]
 
- def found_person_info(self, offset):
-        tuple_person = select(offset)
-        = = []
-        for i in tuple_person:
-            list_person.append(i)
-        return f'{list_person[0]} {list_person[1]}, ссылка - {list_person[3]}'
+def found_person_info(self, offset):
+    tuple_person = select(offset)
+    list_person = []
+    for i in tuple_person:
+        list_person.append(i)
+    return f'{list_person[0]} {list_person[1]}, ссылка - {list_person[3]}'
 
- def person_id (self, offset):
-        tuple_person = select(offset)
-        = = []
-        for i in tuple_person:
-            list_person.append(i)
-        return (list_person[2])
+
+def person_id (self, offset):
+    tuple_person = select(offset)
+    list_person = []
+    for i in tuple_person:
+        list_person.append(i)
+    return str(list_person[2])
 
  bot = VKBot()
