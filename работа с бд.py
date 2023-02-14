@@ -19,7 +19,6 @@ with conn.cursor() as cur:
     conn.close()
 
 
-    """СОЗДАНИЕ ТАБЛИЦЫ SEEN_USERS (ПРОСМОТРЕННЫЕ ПОЛЬЗОВАТЕЛИ"""
 with conn.cursor() as cur:
     cur.execute(
         """CREATE TABLE IF NOT EXISTS seen_users(
@@ -28,14 +27,12 @@ with conn.cursor() as cur:
     );
 
 
-"""ВСТАВКА ДАННЫХ В ТАБЛИЦУ SEEN_USERS"""
 with conn.cursor() as cur:
     cur.execute("INSERT INTO seen_users (vk_id)"
         "VALUES ('{vk_id}')"
     );
 
 def select(offset):
-    """ВЫБОРКА ИЗ НЕПРОСМОТРЕННЫХ ЛЮДЕЙ"""
     with conn.cursor() as cur:
         cur.execute(
             f"""SELECT u.first_name,
