@@ -1,6 +1,6 @@
 import psycopg2
 from config import *
-conn = psycopg2.connect(database="diplom", user="postgres", password="veronika")
+conn = psycopg2.connect(database="diplom", user="user", password="password")
 
 with conn.cursor() as cur:
     cur.execute(
