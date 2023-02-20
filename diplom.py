@@ -8,8 +8,10 @@ token  = input ('Token:vk1.a.oyOMS9Mia8-1d9wzx4iaiL5ScyydRM4ZITb4n9tylutAyVSwQPj
 vk = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk)
 
+session = vk_api.VkApi(token=token)
+vk = session.get_api()
 
- def user (user_id, message):
+def user (user_id, message):
         vk.method('messages.send', {'user_id': user_id,
                                     'message': message,
                                     'random_id': randrange(10 ** 7)})
@@ -26,6 +28,25 @@ longpoll = VkLongPoll(vk)
                 user(event.user_id, "Пока((")
             else:
                 user(event.user_id, "Не поняла вашего ответа...");
+
+def get_user_status(user_id):
+    friends = session.method("friends.get", {"user_id":user_id})
+    for friend in friends["items"]:
+        user = session.method("users.get", {user_ids:friend})
+        status = session.method("status.get", {user_id:friend})
+        if status['text'] == "":
+            continue
+        else:
+            print(f"{user[0]['first_name']} {user[0]['last_name']} / {status['text']}")
+def _get_user_name_from_vk_id(self, user_id):
+    request = requests.get("https://vk.com/id" + str(user_id))
+    bs = bs4.BeautifulSoup(request.text, "html.parser")
+
+    user_name = self._clean_all_tag_from_str(bs.findAll("title")[0])
+
+    return user_name.split()[0]
+
+
 
  def get_photos_id(self, user_id):
                     url = 'https://api.vk.com/method/photos.getAll'
@@ -59,7 +80,7 @@ def get_photo_1(self, user_id):
     for i in list:
         count += 1
         if count == 1:
-        return i[1]
+     return i[1]
 
 
 def get_photo_2(self, user_id):
