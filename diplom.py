@@ -1,7 +1,7 @@
 
 import vk_api
 from vk_api.longpoll import  VkLongPoll, VkEventType
-from vk_bot import VkBot
+
 
 token  = input ('Token:vk1.a.oyOMS9Mia8-1d9wzx4iaiL5ScyydRM4ZITb4n9tylutAyVSwQPj79P5mLUviOI6DGA8zKgl3LqaFeo58vWzIRnsaNl1pC8V3lqffNdnJGxqi2-v7TrQKtumdf6BqWN_PKXe6olRjna4KCrmjOv2XJnDoddi7tlZsutoRnusCE0holZYTGWbJ_BimKUOwEeGduNXwj9tzQRtwOskw3Meajw ')
 
