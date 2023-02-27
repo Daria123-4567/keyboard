@@ -8,15 +8,12 @@ token  = input ('Token:vk1.a.oyOMS9Mia8-1d9wzx4iaiL5ScyydRM4ZITb4n9tylutAyVSwQPj
 vk = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk)
 
-session = vk_api.VkApi(token=token)
-vk = session.get_api()
 
 def write_msg (user_id, message):
         vk.method('messages.send', {'user_id': id,
                                     'message': message,
                                     'random_id': 0})
-def write_msg(id, some_text):
-    vk_session.method("messages.send, {}")
+
 
 for event in longpoll.listen():
     if event.type == VkEventType.MESSAGE_NEW and event.to_me:
@@ -48,4 +45,17 @@ def _get_user_name_from_vk_id(self, user_id):
     user_name = self._clean_all_tag_from_str(bs.findAll("title")[0])
 
     return user_name.split()[0]
+
+ @classmethod
+    def ask_user(cls, attribute):
+        path = os.path.join(resources, 'output', attribute)
+
+        with open(f'{path}.txt', encoding='utf8') as f:
+            question = f.read().strip()
+        answer  = input (f'\n{question}\n\n')
+
+        if answer.isdigit():
+            answer = int(answer)
+
+        return answer
 
