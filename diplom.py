@@ -1,9 +1,7 @@
 
 import vk_api
 from vk_api.longpoll import  VkLongPoll, VkEventType
-
-
-token  = input ('Token:vk1.a.oyOMS9Mia8-1d9wzx4iaiL5ScyydRM4ZITb4n9tylutAyVSwQPj79P5mLUviOI6DGA8zKgl3LqaFeo58vWzIRnsaNl1pC8V3lqffNdnJGxqi2-v7TrQKtumdf6BqWN_PKXe6olRjna4KCrmjOv2XJnDoddi7tlZsutoRnusCE0holZYTGWbJ_BimKUOwEeGduNXwj9tzQRtwOskw3Meajw ')
+from token import token
 
 vk = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk)
@@ -46,16 +44,16 @@ def _get_user_name_from_vk_id(self, user_id):
 
     return user_name.split()[0]
 
- @classmethod
-    def ask_user(cls, attribute):
-        path = os.path.join(resources, 'output', attribute)
 
-        with open(f'{path}.txt', encoding='utf8') as f:
-            question = f.read().strip()
-        answer  = input (f'\n{question}\n\n')
+ def ask_user(cls, attribute):
+    path = os.path.join(resources, 'output', attribute)
 
-        if answer.isdigit():
-            answer = int(answer)
+    with open(f'{path}.txt', encoding='utf8') as f:
+        question = f.read().strip()
+    answer  = input (f'\n{question}\n\n')
 
-        return answer
+    if answer.isdigit():
+        answer = int(answer)
+
+    print (answer)
 
