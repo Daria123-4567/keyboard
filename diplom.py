@@ -7,8 +7,8 @@ vk = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk)
 
 
-def write_msg (user_id, message):
-        vk.method('messages.send', {'user_id': id,
+def write_msg (user_id, message,photos=None):
+        vk.method('messages.send', {'user_id': user_id,
                                     'message': message,
                                     'random_id': 0})
 
@@ -20,9 +20,7 @@ for event in longpoll.listen():
 
         if request == "ищи":
             write_msg(event.user_id, "я нашел")
-        else:
-            write_msg(event.user_id, "ищу как могу")
-        if request == "далее":
+        elif request == "далее":
             write_msg(event.user_id, "далее")
         else:
             write_msg(event.user_id, "куда уж дальше")
@@ -30,30 +28,29 @@ for event in longpoll.listen():
 
 class VkBot:
 
-    def __init__(self, user_id):
+    def __init__(self, user_id,see_user_id):
         print("Создан объект бота!")
         self._USER_ID = user_id
-        self._USERNAME = self._get_user_name_from_vk_id(user_id)
+        self._SEE_USER_ID = self._get_user_name_from_vk_id(user_id)
 
 
-def _get_user_name_from_vk_id(self, user_id):
-    request = requests.get("https://vk.com/id" + str(user_id))
-    bs = bs4.BeautifulSoup(request.text, "html.parser")
+    def _get_user_name_from_vk_id(self, user_id):
+        request = requests.get("https://vk.com/id" + str(user_id))
 
-    user_name = self._clean_all_tag_from_str(bs.findAll("title")[0])
+        user_name = self._clean_all_tag_from_str(bs.findAll("title")[0])
 
-    return user_name.split()[0]
+    print (user_name.split()[0]
 
 
- def ask_user(cls, attribute):
-    path = os.path.join(resources, 'output', attribute)
+    def ask_user(cls, attribute):
+        path = os.path.join(resources,  'output', attribute)
 
-    with open(f'{path}.txt', encoding='utf8') as f:
-        question = f.read().strip()
-    answer  = input (f'\n{question}\n\n')
+        with open(f'{path}.txt', encoding='utf8') as f:
+            question = f.read().strip()
+            answer  = input (f'\n{question}\n\n')
 
-    if answer.isdigit():
-        answer = int(answer)
+                if answer.isdigit():
+                    answer = int(answer)
 
     print (answer)
 
