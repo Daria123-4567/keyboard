@@ -1,56 +1,90 @@
-
 import vk_api
-from vk_api.longpoll import  VkLongPoll, VkEventType
 from token import token
+from vk_api.exсeptions import ApiError
 
-vk = vk_api.VkApi(token=token)
-longpoll = VkLongPoll(vk)
+class VkWork():
+    def __init__(self, token):
+        self.ext_api = vk_api.VkApi(token=token)
 
+    def get_profile_info(self, user_id):
 
-def write_msg (user_id, message,photos=None):
-        vk.method('messages.send', {'user_id': user_id,
-                                    'message': message,
-                                    'random_id': 0})
+        try:
+            info = self.ext_api.method('users.get',
+                                      {'user_id': user_id
+                                       'fields': 'bdate,city,sex'
+                                      }
 
+                                      )
+        except ApiError:
+            return
 
-for event in longpoll.listen():
-    if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-        write_msg(event.user_id, "Привет я бот для поиска...")
-        request = event.text
-
-        if request == "ищи":
-            write_msg(event.user_id, "я нашел")
-        elif request == "далее":
-            write_msg(event.user_id, "далее")
-        else:
-            write_msg(event.user_id, "куда уж дальше")
+        return info
 
 
-class VkBot:
 
-    def __init__(self, user_id,see_user_id):
-        print("Создан объект бота!")
-        self._USER_ID = user_id
-        self._SEE_USER_ID = self._get_user_name_from_vk_id(user_id)
+    def users_search(self, city_id, age_from, age_to, sex, offset = None):
+
+        try:
+            profiles = self.ext_api.method('users_search',
+                                      {'city_id': city_id,
+                                       'age_from': age_from,
+                                       'age_to': age_to,
+                                       'sex': sex,
+                                       'count': 30,
+                                       'offset': offset,
+                                       })
+
+        except ApiError:
+            return
+
+        profiles = profiles['items']
+
+        result = []
+        for profile in profiles
+            if profile['is_closed'] == False:
+                result.append({'name':profile['first_name'] + '' + profile['last_name'],
+                              'id': profile['id']
+                              })
+        return result
 
 
-    def _get_user_name_from_vk_id(self, user_id):
-        request = requests.get("https://vk.com/id" + str(user_id))
+    def photos_get(self, user_id):
+        photos = self.ext_api.method('photos.get',
+                                     {'album_id': 'profile',
+                                      'owner_id': user_id
 
-        user_name = self._clean_all_tag_from_str(bs.findAll("title")[0])
+                                     }
+                                     )
+        try:
+            photos = photos['items']
+        except KeyError:
+            return
 
-    print (user_name.split()[0]
+        result = []
+        for num, photo in enumerate(photos):
+            result.append({'owner_id': photo['owner_id'],
+                           'id':photo['id']
+                           })
+            if num == 2:
 
 
-    def ask_user(cls, attribute):
-        path = os.path.join(resources,  'output', attribute)
 
-        with open(f'{path}.txt', encoding='utf8') as f:
-            question = f.read().strip()
-            answer  = input (f'\n{question}\n\n')
 
-                if answer.isdigit():
-                    answer = int(answer)
+if__name__ == '__main__':
+    work = VkWork(token)
 
-    print (answer)
+    info = work.get_profile_info()
+    if info:
+        print(work.get_profile_info())
+    else:
+        pass
+
+
+
+if__name__ == '__main__':
+    work = VkWork(token)
+
+    profiles = work.users_search(city_id, age_from, age_to, sex, offset = None)
+
+
 
