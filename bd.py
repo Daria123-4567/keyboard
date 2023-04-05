@@ -1,5 +1,5 @@
 import psycopg2
-from config import *
+from token import *
 conn = psycopg2.connect(database="diplom", user="user", password="password")
 
 with conn.cursor() as cur:

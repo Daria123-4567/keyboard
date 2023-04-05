@@ -1,19 +1,28 @@
-from vk_api.longpoll import VkLongPoll, VkEventType
-longpoll = VkLongPoll(vk_session)
-vk = vk_session.get_api()
-for event in longpoll.listen():
-    if event.type == VkEventType.MESSAGE_NEW and event.to_me and event.text:
-        write_msg(event.user_id, "Привет я бот для поиска...")
-        request = event.text
+import vk_api
+from vk_api.longpoll import  VkLongPoll, VkEventType
+from vk_api.utils import get_random_id
+from token import token
 
-        if request == "ищи":
-            write_msg(event.user_id, "я нашел")
-        else:
-            write_msg(event.user_id, "ищу как могу")
-        if request == "далее":
-            write_msg(event.user_id, "далее")
-        else:
-            write_msg(event.user_id, "куда уж дальше")
+class VkBot:
+    def __init__(token):
+        self.bot = vk_api.VkApi(token=token)
 
+    def write_msg (self,user_id, message,photos=None):
+        self.bot.method('messages.send', {'user_id': user_id,
+                                          'message': message,
+                                          'random_id': 0}
+                        )
+    def handler(self):
+        longpoll = VkLongPoll(self.bot)
+        for event in longpoll.listen():
+            if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+                write_msg(event.user_id, "Привет я бот для поиска...")
+                request = event.text
 
+                if request == "ищи":
+                    write_msg(event.user_id, "я нашел")
+                elif request == "далее":
+                    write_msg(event.user_id, "далее")
+                else:
+                    write_msg(event.user_id, "куда уж дальше")
 
