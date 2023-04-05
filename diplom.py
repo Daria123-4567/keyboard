@@ -2,6 +2,7 @@ import vk_api
 from token import token
 from vk_api.exсeptions import ApiError
 
+
 class VkWork():
     def __init__(self, token):
         self.ext_api = vk_api.VkApi(token=token)
@@ -10,7 +11,7 @@ class VkWork():
 
         try:
             info = self.ext_api.method('users.get',
-                                      {'user_id': user_id
+                                      {'user_id': user_id,
                                        'fields': 'bdate,city,sex'
                                       }
 
@@ -19,8 +20,6 @@ class VkWork():
             return
 
         return info
-
-
 
     def users_search(self, city_id, age_from, age_to, sex, offset = None):
 
@@ -40,13 +39,12 @@ class VkWork():
         profiles = profiles['items']
 
         result = []
-        for profile in profiles
+        for profile in profiles:
             if profile['is_closed'] == False:
                 result.append({'name':profile['first_name'] + '' + profile['last_name'],
                               'id': profile['id']
                               })
         return result
-
 
     def photos_get(self, user_id):
         photos = self.ext_api.method('photos.get',
@@ -66,11 +64,12 @@ class VkWork():
                            'id':photo['id']
                            })
             if num == 2:
+                likes = sorted(likes, reverse=True)
+                comments = sorted(comments, reverse=True)
+        return result
 
 
-
-
-if__name__ == '__main__':
+if __name__ == '__main__':
     work = VkWork(token)
 
     info = work.get_profile_info()
@@ -80,8 +79,7 @@ if__name__ == '__main__':
         pass
 
 
-
-if__name__ == '__main__':
+if __name__ == '__main__':
     work = VkWork(token)
 
     profiles = work.users_search(city_id, age_from, age_to, sex, offset = None)
