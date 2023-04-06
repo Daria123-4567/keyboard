@@ -7,15 +7,14 @@ class VkWork():
     def __init__(self, token):
         self.ext_api = vk_api.VkApi(token=token)
 
-    def get_profile_info(self, user_id):
+    def users_get(self, user_id):
 
         try:
             info = self.ext_api.method('users.get',
                                       {'user_id': user_id,
                                        'fields': 'bdate,city,sex'
-                                      }
+                                      })
 
-                                      )
         except ApiError:
             return
 
@@ -72,9 +71,9 @@ class VkWork():
 if __name__ == '__main__':
     work = VkWork(token)
 
-    info = work.get_profile_info()
+    info = work.users_get()
     if info:
-        print(work.get_profile_info())
+        print(work.users_get())
     else:
         pass
 
