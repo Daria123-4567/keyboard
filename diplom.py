@@ -5,6 +5,7 @@ from vk_api.exсeptions import ApiError
 
 class VkWork:
     pass
+
     def __init__(self, token):
         self.vk = None
         self.ext_api = vk_api.VkApi(token=token)
@@ -77,9 +78,8 @@ class VkWork:
                     likes = i_likes.get('count')
                     dict_photos[likes] = photo_id
             list_of_ids = sorted(dict_photos.items(), reverse=True)
-            return list_of_ids
         except KeyError:
-
+            return list_of_ids
 
     def get_photo_1(self, user_id):
         list = self.photos_get(user_id)
@@ -128,5 +128,3 @@ class VkWork:
 
     def person_id(self, offset):
         pass
-
-

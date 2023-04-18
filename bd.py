@@ -19,7 +19,7 @@ def insert_into_users():
                        )
         conn.close()
 
-        for row in cursor.execute("SELECT user_id, FROM ..."):
+        for row in cursor.execute("SELECT user_id, FROM insert_into_users"):
             user_id = row
             break
         else:
