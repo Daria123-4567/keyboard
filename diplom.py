@@ -81,50 +81,7 @@ class VkWork:
         except KeyError:
             return list_of_ids
 
-    def get_photo_1(self, user_id):
-        list = self.photos_get(user_id)
-        count = 0
-        for i in list:
-            count += 1
-            if count == 1:
-                return i[1]
-
-    def get_photo_2(self, user_id):
-        list = self.photos_get(user_id)
-        count = 0
-        for i in list:
-            count += 1
-            if count == 2:
-                return i[1]
-
-    def get_photo_3(self, user_id):
-        list = self.photos_get(user_id)
-        count = 0
-        for i in list:
-            count += 1
-            if count == 3:
-                return i[1]
-
-    def send_photo_1(self, user_id, message, offset):
-        self.vk.method('messages.send', {'user_id': user_id,
-                                         'token': token,
-                                         'message': message,
-                                         'attachment': f'photo{self.person_id(offset)}_{self.get_photo_1(self.person_id(offset))}',
-                                         'random_id': 0})
-
-    def send_photo_2(self, user_id, message, offset):
-        self.vk.method('messages.send', {'user_id': user_id,
-                                         'token': token,
-                                         'message': message,
-                                         'attachment': f'photo{self.person_id(offset)}_{self.get_photo_2(self.person_id(offset))}',
-                                         'random_id': 0})
-
-    def send_photo_3(self, user_id, message, offset):
-        self.vk.method('messages.send', {'user_id': user_id,
-                                         'token': token,
-                                         'message': message,
-                                         'attachment': f'photo{self.person_id(offset)}_{self.get_photo_3(self.person_id(offset))}',
-                                         'random_id': 0})
-
     def person_id(self, offset):
         pass
+
+
