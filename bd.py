@@ -1,4 +1,5 @@
 import psycopg2
+from PostgreSQL15.orm import Session
 
 conn = psycopg2.connect(database="diplom", user="veronika", password="veronika")
 
@@ -12,15 +13,18 @@ def create_table_users():
         )
 
 
-def insert_into_users():
-    with conn.cursor() as cursor:
-        cursor.execute("INSERT INTO user (user_id,see_user_id )"
-                       "VALUES('{user_id}','{see_user_id}')"
-                       )
-        conn.close()
+def insert_into_users(engine, user_id, see_user_id):
+    with Session(engine) as session:
+        to_bd = Users(user_id=user_id, see_user_id=see_user_id)
+        session.add(to_bd)
+        session.commit()
 
-        for row in cursor.execute("SELECT user_id, FROM insert_into_users"):
-            user_id = row
-            break
-        else:
-            print("not found")
+
+def check_users(engine, user_id, see_user_id):
+    with Session(engine) as session:
+        from_bd = session.query(Users).filter(
+            Users.user_id == user_id,
+            Users.see_user_id == see_user_id
+        ).first()
+        return True if from_bd else False
+
