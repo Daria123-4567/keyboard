@@ -4,7 +4,7 @@ from PostgreSQL15.orm import Session
 conn = psycopg2.connect(database="diplom", user="veronika", password="veronika")
 
 
-def create_table_users():
+def users():
     with conn.cursor() as cursor:
         cursor.execute(
             """CREATE TABLE IF NOT EXISTS users(
@@ -15,16 +15,16 @@ def create_table_users():
 
 def insert_into_users(engine, user_id, see_user_id):
     with Session(engine) as session:
-        to_bd = Users(user_id=user_id, see_user_id=see_user_id)
+        to_bd = users(user_id=user_id, see_user_id=see_user_id)
         session.add(to_bd)
         session.commit()
 
 
 def check_users(engine, user_id, see_user_id):
     with Session(engine) as session:
-        from_bd = session.query(Users).filter(
-            Users.user_id == user_id,
-            Users.see_user_id == see_user_id
+        from_bd = session.query(users).filter(
+            users.user_id == user_id,
+            users.see_user_id == see_user_id
         ).first()
         return True if from_bd else False
 

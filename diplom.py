@@ -4,8 +4,6 @@ from vk_api.exсeptions import ApiError
 
 
 class VkWork:
-    pass
-
     def __init__(self, token):
         self.vk = None
         self.ext_api = vk_api.VkApi(token=token)
@@ -18,19 +16,18 @@ class VkWork:
                                         'fields': 'date,city,sex'
                                         })
 
-        except ApiError:
-            return
+        except ApiError as e:
+            info = {}
+            print(f'error = {e}')
+        result = {'name': info['first_name'] + '' + info['last_name'],
+                  'sex': info.get('sex'),
+                  'city': info.get('city')['title'],
+                  'bdate': info.get('bdate')
+                  }
 
-        return info
+        return result
 
-    if __name__ == '__main__':
-        work = VkWork(token)
 
-        info = work.users_get()
-        if info:
-            print(work.users_get())
-        else:
-            pass
 
     def users_search(self, city_id, age_from, age_to, sex, offset=None):
 
@@ -39,13 +36,13 @@ class VkWork:
                                            {'city_id': city_id,
                                             'age_from': age_from,
                                             'age_to': age_to,
-                                            'sex': sex,
+                                            'sex': 1 if params['sex'] == 2 else 2,
                                             'count': 30,
                                             'offset': offset,
                                             })
 
         except ApiError:
-            return
+            return profiles
 
         profiles = profiles['items']
 
@@ -56,10 +53,6 @@ class VkWork:
                                'id': profile['id']
                                })
         return result
-
-    if __name__ == '__main__':
-        work = VkWork(token)
-        profiles = work.users_search(city_id, age_from, age_to, sex, offset=None)
 
     def photos_get(self, user_id):
         photos = self.ext_api.method('photos.get',
@@ -83,5 +76,4 @@ class VkWork:
 
     def person_id(self, offset):
         pass
-
 
