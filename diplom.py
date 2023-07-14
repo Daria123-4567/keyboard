@@ -1,6 +1,7 @@
 import vk_api
 from config import token
 from vk_api.exсeptions import ApiError
+from datetime import datetime
 
 
 class VkWork:
@@ -24,6 +25,8 @@ class VkWork:
                   'city': info.get('city')['title'],
                   'bdate': info.get('bdate')
                   }
+        if result is None:
+            print('Заполните поле')
 
         return result
 
@@ -36,7 +39,7 @@ class VkWork:
                                            {'city_id': city_id,
                                             'age_from': age_from,
                                             'age_to': age_to,
-                                            'sex': 1 if params['sex'] == 2 else 2,
+                                            'sex': sex,
                                             'count': 30,
                                             'offset': offset,
                                             })
