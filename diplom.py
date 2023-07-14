@@ -77,6 +77,5 @@ class VkWork:
             photos.sort(reverse=False)
             return photos[0, 1, 2]
 
-    def person_id(self, offset):
-        pass
+     
 

@@ -2,11 +2,14 @@ import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 from vk_api.utils import get_random_id
 from config import token
+from core import VkWork
 
 
 class VkBot:
     def __init__(self, token):
         self.bot = vk_api.VkApi(token=token)
+        self.longpoll = VkLongPoll(self.vk)
+        self.vk_work = VkWork(token)
 
     def write_msg(self, user_id, message, photos=None):
         self.bot.method('messages.send', {'user_id': user_id,
