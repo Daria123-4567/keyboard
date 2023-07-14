@@ -30,8 +30,6 @@ class VkWork:
 
         return result
 
-
-
     def users_search(self, city_id, age_from, age_to, sex, offset=None):
 
         try:
@@ -60,8 +58,8 @@ class VkWork:
     def photos_get(self, user_id):
         photos = self.ext_api.method('photos.get',
                                      {'album_id': 'profile',
-                                      'owner_id': user_id
-
+                                      'owner_id': user_id,
+                                      'extended': 1
                                       }
                                      )
         try:
@@ -75,7 +73,9 @@ class VkWork:
                     dict_photos[likes] = photo_id
             list_of_ids = sorted(dict_photos.items(), reverse=True)
         except KeyError:
-            return list_of_ids
+            photos = ['likes', 'count']
+            photos.sort(reverse=False)
+            return photos[0, 1, 2]
 
     def person_id(self, offset):
         pass

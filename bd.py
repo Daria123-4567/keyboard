@@ -1,5 +1,5 @@
 import psycopg2
-from PostgreSQL15.orm import Session
+from sqlalchemy.orm import Session
 
 conn = psycopg2.connect(database="diplom", user="veronika", password="veronika")
 
