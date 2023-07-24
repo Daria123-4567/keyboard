@@ -30,7 +30,7 @@ class VkBot:
                 if request == "ищи":
                     users = self.api.users_search(self.profiles)
                     user = users.pop()
-                    photos = self.vk_work.photos_get(user['id'])
+                    photos_user = self.api.get_photos(user['id'])
                     attachment = ''
                     for num, photo in enumerate(photos_user):
                         attachment += f'photo{photo["owner_id"]}_{photo["id"]}'
